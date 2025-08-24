@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+    id String @id @default(uuid())
+    nome String
+    email String @unique
+    senha String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    telefones UsuarioTelefones[]
+    entradas Entrada[]
+    saidas Saida[]
+}
+
+model UsuarioTelefones {
+    id String @id @default(uuid())
+    numero String
+    ddd String
+    usuarioId String
+
+    usuario Usuario @relation(fields: [usuarioId], references: [id])
+
+    @@unique([ddd, numero])
+}
+
+model Categoria {
+    id String @id @default(uuid())
+    nome String @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    produtos Produto[]
+}
+
+model Produto {
+    id String @id @default(uuid())
+    nome String
+    quantidade Int @default(0)
+    descricao String?
+    categoriaId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    categoria Categoria @relation(fields: [categoriaId], references: [id])
+    entradas Entrada[]
+    saidas Saida[]
+}
+
+model Fornecedor {
+    id String @id @default(uuid())
+    nome String
+    email String @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    telefones FornecedorTelefones[]
+    entradas Entrada[]
+}
+
+model FornecedorTelefones {
+    id String @id @default(uuid())
+    numero String
+    ddd String
+    fornecedorId String
+
+    fornecedor Fornecedor @relation(fields: [fornecedorId], references: [id])
+
+    @@unique([ddd, numero])
+}
+
+model Entrada {
+    id String @id @default(uuid())
+    quantidade Int
+    precoCusto Decimal
+    data DateTime @default(now())
+    usuarioId String
+    fornecedorId String
+    produtoId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    usuario Usuario @relation(fields: [usuarioId], references: [id])
+    fornecedor Fornecedor @relation(fields: [fornecedorId], references: [id])
+    produto Produto @relation(fields: [produtoId], references: [id])
+}
+
+model Saida {
+    id String @id @default(uuid())
+    quantidade Int
+    precoVenda Decimal
+    data DateTime @default(now())
+    usuarioId String
+    produtoId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    usuario Usuario @relation(fields: [usuarioId], references: [id])
+    produto Produto @relation(fields: [produtoId], references: [id])
+}
