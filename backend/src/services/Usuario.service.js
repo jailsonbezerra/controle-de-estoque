@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client'
 import usuarioRepository from '../repositories/Usuario.repository.js'
 import bcrypt from 'bcrypt'
 
@@ -26,7 +25,7 @@ class UsuarioService {
     }
 
     async findAll() {
-        return usuarioRepository.findAll()
+        return await usuarioRepository.findAll()
     }
 
     async findById(id) {

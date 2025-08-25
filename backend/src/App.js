@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 
 import usuarioRoutes from './routes/Usuario.route.js'
+import usuarioTelefoneRoutes from './routes/UsuarioTelefone.route.js'
+import categoriaRoute from './routes/Categoria.route.js'  
 
 
 class App {
@@ -19,6 +21,8 @@ class App {
 
     routes() {
         this.app.use('/api', usuarioRoutes)
+        this.app.use('/api', usuarioTelefoneRoutes)
+        this.app.use('/api', categoriaRoute)
     }
 }
 
