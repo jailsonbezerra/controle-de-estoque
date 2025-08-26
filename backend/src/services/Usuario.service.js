@@ -49,8 +49,6 @@ class UsuarioService {
     }
 
     async delete(id) {
-        await this.findById(id)
-
         return usuarioRepository.delete(id)
     }
 }
