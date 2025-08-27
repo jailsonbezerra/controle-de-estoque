@@ -9,6 +9,10 @@ import fornecedorTelefoneRoute from './routes/FornecedorTelefone.route.js'
 import produtoRoute from './routes/Produto.route.js'
 import entradaRoute from './routes/Entrada.route.js'
 import saidaRoute from './routes/Saida.route.js'
+import authUsuarioRoute from './routes/AuthUsuario.route.js'
+
+import authUsuarioMiddleware from './middlewares/AuthUsuario.middleware.js'
+
 
 
 class App {
@@ -25,14 +29,15 @@ class App {
     }
 
     routes() {
-        this.app.use('/api/usuarios', usuarioTelefoneRoutes)
+        this.app.use('/api/usuarios',authUsuarioMiddleware.handle, usuarioTelefoneRoutes)
         this.app.use('/api', usuarioRoutes)
         this.app.use('/api', categoriaRoute)
-        this.app.use('/api/fornecedores', fornecedorTelefoneRoute)
-        this.app.use('/api', fornecedorRoute)
+        this.app.use('/api/fornecedores',authUsuarioMiddleware.handle, fornecedorTelefoneRoute)
+        this.app.use('/api',authUsuarioMiddleware.handle, fornecedorRoute)
         this.app.use('/api', produtoRoute)
-        this.app.use('/api', entradaRoute)
-        this.app.use('/api', saidaRoute)
+        this.app.use('/api',authUsuarioMiddleware.handle, entradaRoute)
+        this.app.use('/api',authUsuarioMiddleware.handle, saidaRoute)
+        this.app.use('/api', authUsuarioRoute)
     }
 }
 

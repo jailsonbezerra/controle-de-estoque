@@ -19,6 +19,7 @@ model Usuario {
     nome String
     email String @unique
     senha String
+    funcao Funcao @default(USUARIO)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -111,4 +112,9 @@ model Saida {
 
     usuario Usuario @relation(fields: [usuarioId], references: [id])
     produto Produto @relation(fields: [produtoId], references: [id])
+}
+
+enum Funcao {
+    USUARIO
+    ADMIN
 }

@@ -31,6 +31,10 @@ class UsuarioRepository {
         })
     }
 
+    async findByEmail(email) {
+        return prisma.usuario.findUnique({ where: { email } })
+    }
+
     async update(id, data) {
         return prisma.usuario.update({ 
             where: { id }, 
