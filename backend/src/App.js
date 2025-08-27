@@ -29,6 +29,7 @@ class App {
     }
 
     routes() {
+        this.app.use('/api', authUsuarioRoute)
         this.app.use('/api/usuarios',authUsuarioMiddleware.handle, usuarioTelefoneRoutes)
         this.app.use('/api', usuarioRoutes)
         this.app.use('/api', categoriaRoute)
@@ -37,7 +38,6 @@ class App {
         this.app.use('/api', produtoRoute)
         this.app.use('/api',authUsuarioMiddleware.handle, entradaRoute)
         this.app.use('/api',authUsuarioMiddleware.handle, saidaRoute)
-        this.app.use('/api', authUsuarioRoute)
     }
 }
 

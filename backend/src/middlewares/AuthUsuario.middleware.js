@@ -12,7 +12,7 @@ class AuthUsuarioMiddleware {
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-            console.log(decoded)
+            //console.log(decoded)
 
             if (decoded.funcao.toLowerCase() !== 'admin'.toLowerCase()) return res.status(401).json({ error: 'Usuario não tem permissão.' })
 
